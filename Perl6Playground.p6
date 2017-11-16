@@ -1,12 +1,189 @@
+say "\n- - - S I G I L S - - -";
 
-sub infix:<plus>(Int $x, Int $y) { $x + $y; };
-say 21 plus 1;            
- 
+say "\n\$ sigil (defines a single item variable)";
 
-sub postfix:<factorial>(Int $x where { $x >= 0 }) { [*] 1..$x };
-say 6factorial;                     
+my $x = 9001;
+say $x;
 
-sub circumfix:<s e>(*@elems) {
-    @elems
-}
-say s 'a', 'b', 'c' e;  
+say "\n\@ sigil (defines a list variable)";
+
+my @y = [2, 4, 6, 8, 10];
+say @y;
+
+say "\n\% sigil (defines a map variable)";
+
+my %z = 1=>1, 2=>4, 3=>9, 4=>16, 5=>25;
+say %z;
+
+say "\n- - - P R E F I X   O P E R A T O R S - - -";
+
+say "\n! operator (not / boolean negation)";
+
+my $booleanValue = False;
+say !$booleanValue;
+
+say "\n+ and - operators (unary positive and negative)";
+
+my $integerValue = 42;
+say -$integerValue;
+
+say "\n? operator (tests for truthyness)";
+
+say ?$booleanValue;
+say ?$integerValue;
+
+say "\n~ operator (convert to string)";
+
+say (~$integerValue).WHAT;
+
+say "\n++ and -- (pre increment and decrement)";
+
+say ++$integerValue;
+say $integerValue;
+
+say "\n^ operator (the 'up to' operator)";
+
+say ^5;
+say (^5).list;
+
+say "\n| operator (flatten a structure into an arguement list)";
+
+sub addThreeThings($x, $y, $z) { $x + $y + $z; }
+
+my @collection = [5, 10, 15];
+
+say addThreeThings(@collection[0], @collection[1], @collection[2]);
+say addThreeThings(|@collection);
+
+say "\n- - - P O S T F I X   O P E R A T O R S - - -";
+
+say "\n++ and -- (post increment and decrement)";
+
+say $integerValue++;
+say $integerValue;
+
+say "\n- - - I N F I X   O P E R A T O R S - - -";
+
+say "\n+, -, * and / operators (ordinary maths operators)";
+
+say 1 + 4;
+say 5 * 10;
+
+say "\n** operator (exponent / to the power of)";
+
+say 2 ** 8;
+
+say "\n% and div operators (modulus and integer division)";
+
+say 10 % 3;
+say 10 div 3;
+
+say "\ngcd and lcm operators (greatest common divisor and lowest common multiple)";
+
+say 100 gcd 6;
+say 50 lcm 15;
+
+say "\n~ operator (string concatination)";
+
+say "Hello " ~ "world!";
+
+say "\nx operator (value replication)";
+
+say "Badger " x 12 ~ "Mushroom " x 2;
+
+say "\nxx operator (list replication)";
+
+say [1, 2, 3] xx 3;
+
+
+say "\n<=> operator (three way comparitor)";
+
+say 5 <=> 10;
+
+say "\n.. operator (inclusive range)";
+
+say 1..10;
+say (1..10).list;
+
+say "\n^.., ^..^ and ..^ (exclusive ranges)";
+
+say 1..^10;
+say (1..^10).list;
+
+say "\n==, !=, <=, >=, < and > operators (numeric comparissons)";
+
+say 10 == 10;
+
+say "\neq, ne, gt, lt, ge and le operators (string comparissons)";
+
+say "alpha" lt "beta";
+
+say "\nbefore and after operators (generic comparissons)";
+
+say 10 before 20;
+
+say "\n=== operator (referencing same object)";
+
+say $integerValue === $integerValue;
+
+say "\n~~ operator (smart match / regex)";
+
+say "cake 123" ~~ /\w\w\w\w/;
+say "cake 123" ~~ /\d\d\d/;
+say "cake 123" ~~ /\w**2/;
+say "cake 123" ~~ /\d**3/;
+say "cake 123" ~~ /\w+/;
+say "cake 123" ~~ /\d+/;
+say "cake 123" ~~ /\w+|d+/;
+
+say "\n... operator (smart / lazy sequence)";
+
+say 1, 2, 4 ... 256;
+say 1, 3, 9 ... 6561;
+
+say "\nmin and max operators";
+
+say 5 min 10;
+say 5 max 10;
+
+say "\n&&, || and ^^ operators (boolean and, or and xor)";
+
+say True && False;
+say True || False;
+say True ^^ False;
+say True ^^ True;
+
+say "\n?? !! operator (ternary)";
+
+say True ?? "It's true" !! "It's false";
+
+say "\nR operator (reverse arguements)";
+
+say 10 / 5;
+say 10 R/ 5;
+
+say "\nZ operator (zip two lists)";
+
+say [1, 2, 3, 4] Z [10, 20, 30, 40];
+
+say "\nX operator (cross product of two lists)";
+
+say [1, 2, 3, 4] X [10, 20, 30, 40];
+
+say "\n= meta-operator (apply and assign)";
+
+say $integerValue += 10;
+say $integerValue *= 10;
+say $integerValue div= 7;
+
+say "\n[] meta-operator (reduces list using enclosed operator)";
+
+say [+] [1, 2, 3, 4, 5];
+
+say "\n<< >> hyper-operators (performs map using encolsed operator)";
+
+say -<< [1, 2, 3, 4];
+say ++<< [1, 2, 3, 4];
+
+say [1, 2, 3, 4] <<+>> 10;
+say [1, 2, 3, 4] <<*>> [10, 100, 1000, 10000];
