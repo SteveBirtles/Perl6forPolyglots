@@ -15,6 +15,40 @@ say "\n\% sigil (defines a map variable)";
 my %z = 1=>1, 2=>4, 3=>9, 4=>16, 5=>25;
 say %z;
 
+say "\n- - - T W I G I L S - - -";
+
+say "\n* twigil (dynamically scoped variable)";
+
+sub dynamic-say() { say $*d; }
+my $*d = "outside";
+if (True)
+{	
+	my $*d = "inside";
+	dynamic-say();
+}
+dynamic-say();
+
+say "\n. and ! twigils (public and private attributes)";
+
+my class Point {
+    has $.x is rw;	#read-write attribute
+    has $.y;		#read only attribute
+    has $!z;		#private attribute
+    
+    submethod BUILD() { $!z = 30 }
+
+    method getZ() { $!z; }	#getter for private attribute
+}
+
+my $p = Point.new( x => 0, y => 20 );
+
+$p.x = 10;
+say $p.x;
+say $p.y;
+say $p.getZ();
+
+say "\n^ twigil ()";
+
 say "\n- - - P R E F I X   O P E R A T O R S - - -";
 
 say "\n! operator (not / boolean negation)";
@@ -188,7 +222,7 @@ say ++<< [1, 2, 3, 4];
 say [1, 2, 3, 4] <<+>> 10;
 say [1, 2, 3, 4] <<*>> [10, 100, 1000, 10000];
 
-say "-------------------------------------------";
+say "\n-------------------------------------------\n";
 
 say 1 + 2;
 say infix:<+>(1, 2);
@@ -209,3 +243,20 @@ sub infix:<^_^>(Str $x, Str $y) {
 }
 
 say "hello" ^_^ "world";
+
+say "\n-------------------------------------------\n";
+
+my @bigList = 1..20;
+
+my @lessThan100 = grep({ $^a < 10 }, @bigList);
+say @lessThan100;
+
+my @evenList = grep({ $^a % 2 == 0 }, @bigList);
+say @evenList;
+
+my @doubledList = map({ $^a * 2}, @evenList);
+say @doubledList;
+
+my $totalOfList = reduce({ $^a + $^b }, @bigList);
+say $totalOfList;
+
