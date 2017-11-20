@@ -22,7 +22,7 @@ say "\n* twigil (dynamically scoped variable)";
 sub dynamic-say() { say $*d; }
 my $*d = "outside";
 if (True)
-{	
+{
 	my $*d = "inside";
 	dynamic-say();
 }
@@ -34,13 +34,13 @@ my class Point {
     has $.x is rw;	#read-write attribute
     has $.y;		#read only attribute
     has $!z;		#private attribute
-    
-    submethod BUILD() { $!z = 30 }
+
+		submethod BUILD(:$!x, :$!y, :$!z) {}
 
     method getZ() { $!z; }	#getter for private attribute
 }
 
-my $p = Point.new( x => 0, y => 20 );
+my $p = Point.new( x => 10, y => 20, z => 30 );
 
 $p.x = 10;
 say $p.x;
@@ -228,8 +228,8 @@ say 1 + 2;
 say infix:<+>(1, 2);
 
 sub postfix:<!>(Int $x) {
-	if ($x <= 1) { 
-		return 1; 
+	if ($x <= 1) {
+		return 1;
 	}
     else {
     	return $x * ($x - 1)!;
@@ -259,4 +259,3 @@ say @doubledList;
 
 my $totalOfList = reduce({ $^a + $^b }, @bigList);
 say $totalOfList;
-
